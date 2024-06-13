@@ -15,10 +15,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.embedded.R
 import com.example.embedded.databinding.ActivityConnectBinding
-import com.example.embedded.presentation.TreasureSecurity.bluetoothAdapter
-import com.example.embedded.presentation.TreasureSecurity.bluetoothSocket
-import com.example.embedded.presentation.TreasureSecurity.connectState
-import com.example.embedded.presentation.TreasureSecurity.outputStream
+import com.example.embedded.presentation.BluetoothManager.bluetoothAdapter
+import com.example.embedded.presentation.BluetoothManager.bluetoothSocket
+import com.example.embedded.presentation.BluetoothManager.connectState
+import com.example.embedded.presentation.BluetoothManager.initStreams
 import java.io.IOException
 import java.util.UUID
 
@@ -64,10 +64,10 @@ class ConnectActivity : AppCompatActivity() {
             }
             bluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID)
             bluetoothSocket!!.connect()
-            outputStream = bluetoothSocket!!.outputStream
+            initStreams()
             connectState.value = ConnectState.Connected
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
-            startActivity(LEDActivity.getIntent(this))
+            startActivity(SecurityActivity.getIntent(this))
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(this, "Connection Failed", Toast.LENGTH_SHORT).show()

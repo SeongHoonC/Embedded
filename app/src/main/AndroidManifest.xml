@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
-            android:name=".presentation.LEDActivity"
+            android:name=".presentation.SecurityActivity"
             android:exported="true"
             android:taskAffinity=""
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
