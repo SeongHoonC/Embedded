@@ -31,28 +31,21 @@ class SecurityActivity : AppCompatActivity() {
         setContentView(binding.root)
         initWindowPadding()
         initBtn()
-        initView()
+        initObserving()
     }
 
-    private fun initWindowPadding() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }
-
-    private fun initView() {
+    // 현재 보안 상태를 관찰합니다.
+    private fun initObserving() {
         lifecycleScope.launch {
             vm.securityState.collect {
                 updateUiState(it)
             }
         }
-        initBtn()
     }
 
     private fun updateUiState(state: SecurityState) {
         when (state) {
+            // 보안 작동 중 화면을 업데이트합니다.
             is SecurityState.SecurityOn -> {
                 binding.tvState.text = "보안 작동중"
                 binding.btnSecurity.visibility = View.GONE
@@ -62,6 +55,7 @@ class SecurityActivity : AppCompatActivity() {
                 binding.ivTheif.visibility = View.GONE
             }
 
+            // 도둑이 감지 됐을 때 화면을 업데이트합니다.
             is SecurityState.Thief -> {
                 binding.tvState.text = "도둑이야!!!"
                 binding.btnSecurity.visibility = View.GONE
@@ -70,10 +64,10 @@ class SecurityActivity : AppCompatActivity() {
                 binding.btnSiren.visibility = View.VISIBLE
                 binding.btnWrongDetection.visibility = View.VISIBLE
                 binding.ivTheif.setImageBitmap(state.bitmap)
-                Log.d("asdf", state.bitmap.toString())
                 binding.ivTheif.visibility = View.VISIBLE
             }
 
+            // 보안 꺼짐 상태일 때 화면을 업데이트합니다.
             is SecurityState.SecurityOff -> {
                 binding.tvState.text = "보안 꺼짐"
                 binding.btnSecurity.text = "보안 켜기"
@@ -84,6 +78,7 @@ class SecurityActivity : AppCompatActivity() {
                 binding.ivTheif.visibility = View.GONE
             }
 
+            // 에러 발생 시 토스트 메시지를 띄우고 화면을 종료합니다.
             is SecurityState.ERROR -> {
                 Toast.makeText(this, "에러 발생", Toast.LENGTH_SHORT).show()
                 finish()
@@ -91,6 +86,7 @@ class SecurityActivity : AppCompatActivity() {
         }
     }
 
+    // 버튼을 클릭할 때 이벤트를 정의합니다.
     private fun initBtn() {
         binding.btnSecurity.setOnClickListener {
             vm.securityOn()
@@ -103,6 +99,16 @@ class SecurityActivity : AppCompatActivity() {
         }
     }
 
+    // 화면의 여백을 설정합니다.
+    private fun initWindowPadding() {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
+
+    // 화면 종료 시, 블루투스 연결을 종료합니다.
     override fun onDestroy() {
         super.onDestroy()
         BluetoothManager.disconnect()

@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-
+/*
+    보안에 관한 상태 및 이벤트를 처리하는 ViewModel 클래스입니다.
+*/
 class SecurityViewModel : ViewModel() {
 
     private val _securityState: MutableStateFlow<SecurityState> =
@@ -19,6 +21,7 @@ class SecurityViewModel : ViewModel() {
     val securityState: StateFlow<SecurityState> = _securityState.asStateFlow()
     private var isSirenOn = false
 
+    // 보안을 켜는 함수입니다.
     fun securityOn() {
         viewModelScope.launch {
             BluetoothManager.sendData("SECURITY_ON")
@@ -39,6 +42,7 @@ class SecurityViewModel : ViewModel() {
     }
 
 
+    // 사이렌을 키거나 끄는 함수입니다.
     fun changeSiren() {
         val thief = securityState.value as? SecurityState.Thief ?: return
 
@@ -68,6 +72,7 @@ class SecurityViewModel : ViewModel() {
         }
     }
 
+    // 도둑이 아니라 잘못된 감지임을 처리하는 함수입니다.
     fun wrongDetection() {
         viewModelScope.launch {
             BluetoothManager.sendData("WRONG_DETECTION")
@@ -78,6 +83,7 @@ class SecurityViewModel : ViewModel() {
         }
     }
 
+    // 라즈베리파이와 연결이 끊겼을 때 처리하는 함수입니다.
     private fun <T> Result<T>.handleConnectFailure() = onFailure {
         BluetoothManager.disconnect()
         Log.d("embedded", it.toString())
