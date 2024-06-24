@@ -68,6 +68,7 @@ class ConnectActivity : AppCompatActivity() {
             connectState.value = ConnectState.Connected
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             startActivity(SecurityActivity.getIntent(this))
+            finish()
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(this, "Connection Failed", Toast.LENGTH_SHORT).show()

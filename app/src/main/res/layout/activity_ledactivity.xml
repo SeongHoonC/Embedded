@@ -13,20 +13,72 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/btnOnOff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnSecurity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="LED ON" />
+        tools:text="보안 꺼짐" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
 
     <Button
-        android:id="@+id/btnOnOff"
+        android:id="@+id/btnSecurity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#4B89DC"
-        android:text="ON/OFF"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnWrongDetection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="#3F51B5"
+        android:text="잘못된 탐지"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/baseLine"
+        app:layout_constraintTop_toBottomOf="@+id/tvState" />
+
+    <View
+        android:id="@+id/baseLine"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivTheif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/btnSiren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:background="#CC4242"
+        android:textColor="#FFFFFF"
+        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintStart_toStartOf="@id/baseLine"
+        app:layout_constraintTop_toBottomOf="@+id/tvState" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
